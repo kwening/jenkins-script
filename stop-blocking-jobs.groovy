@@ -7,6 +7,12 @@ runningBuilds = Jenkins.instance.getAllItems(Job.class).collect { job->
       computer.getExecutors().findAll{ build.externalizableId == it.getCurrentWorkUnit()?.work?.runId }.each { exec ->
         println "exec ${exec.getCurrentExecutable()?.getParent()} ${exec.getCurrentWorkUnit()?.work?.runId}"
         println "Killing ${build.externalizableId}"
+        
+        build.changeSets.each { set ->
+          set.each { entry ->
+              println "${entry.commitId} by ${entry.author.fullName}"
+          }
+      }
       }
     }
   }
